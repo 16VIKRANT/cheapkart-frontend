@@ -16,6 +16,8 @@ function Icon({ name, size = 20 }) {
     close: <path d="m6 6 12 12M18 6 6 18"/>,
     package: <><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="M3 8v9l9 5 9-5V8M12 13v9"/></>,
     logout: <><path d="M10 17l5-5-5-5M15 12H3"/><path d="M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7"/></>,
+    moon: <path d="M20.5 14.2A8.8 8.8 0 0 1 9.8 3.5 8.8 8.8 0 1 0 20.5 14.2Z"/>,
+    sun: <><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/></>,
   }
   return <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[name]}</svg>
 }
@@ -41,8 +43,18 @@ function App() {
   const [user, setUser] = useState(null)
   const [cartCount, setCartCount] = useState(0)
   const [toast, setToast] = useState('')
+  const [theme, setTheme] = useState(() => {
+    const savedTheme = localStorage.getItem('cheapkart_theme')
+    if (savedTheme === 'light' || savedTheme === 'dark') return savedTheme
+    return window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+  })
   const [authChecked, setAuthChecked] = useState(() => !getToken())
   const go = useCallback((to) => navigate(to), [navigate])
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme
+    localStorage.setItem('cheapkart_theme', theme)
+  }, [theme])
 
   const refreshCartCount = useCallback(async () => {
     if (!getToken()) { setCartCount(0); return }
@@ -103,14 +115,14 @@ function App() {
   }
 
   return <>
-    <Header user={user} cartCount={cartCount} go={go} signOut={signOut} />
+    <Header user={user} cartCount={cartCount} go={go} signOut={signOut} theme={theme} toggleTheme={() => setTheme((current) => current === 'dark' ? 'light' : 'dark')} />
     {page}
     <Footer />
     {toast && <div className="toast" role="status">{toast}</div>}
   </>
 }
 
-function Header({ user, cartCount, go, signOut }) {
+function Header({ user, cartCount, go, signOut, theme, toggleTheme }) {
   const [search, setSearch] = useState('')
   const submit = (event) => { event.preventDefault(); go(search.trim() ? `/?q=${encodeURIComponent(search.trim())}` : '/') }
   return <header className="site-header">
@@ -123,6 +135,7 @@ function Header({ user, cartCount, go, signOut }) {
         {user?.isAdmin && <button className="nav-link dashboard-nav-link" onClick={() => go('/admin')}>Dashboard</button>}
         {user && !user.isAdmin ? <button className="icon-link" aria-label="Profile" onClick={() => go('/profile')}><Icon name="user" /></button> : null}
         {!user?.isAdmin && <button className="icon-link cart-link" aria-label={`Cart, ${cartCount} items`} onClick={() => go('/cart')}><Icon name="bag" />{cartCount > 0 && <span className="cart-badge">{cartCount}</span>}</button>}
+        <button className="theme-toggle" type="button" onClick={toggleTheme} aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`} title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}><Icon name={theme === 'dark' ? 'sun' : 'moon'} size={18} /><span>{theme === 'dark' ? 'Light' : 'Dark'}</span></button>
         {user ? <button className="account-link" onClick={signOut}><Icon name="logout" size={17} /><span>Sign out</span></button> : <button className="login-link" onClick={() => go('/login')}>Sign in <Icon name="arrow" size={16} /></button>}
       </nav>
     </div>

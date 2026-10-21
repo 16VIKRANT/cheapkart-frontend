@@ -1,6 +1,6 @@
 #root { min-height: 100vh; }
 button { border: 0; background: none; cursor: pointer; }
-.site-header { height: 76px; border-bottom: 1px solid var(--line); background: rgba(248,247,243,.96); position: sticky; z-index: 10; top: 0; backdrop-filter: blur(14px); }
+.site-header { height: 76px; border-bottom: 1px solid var(--line); background: var(--canvas); position: sticky; z-index: 10; top: 0; backdrop-filter: blur(14px); }
 .header-inner { max-width: 1280px; height: 100%; margin: auto; padding: 0 40px; display: flex; align-items: center; gap: 42px; }
 .brand { display: inline-flex; align-items: center; gap: 9px; font-size: 21px; font-weight: 700; letter-spacing: -1.2px; white-space: nowrap; padding: 0; }
 .brand-mark { width: 31px; height: 31px; display: inline-grid; place-items: center; border-radius: 50%; background: var(--accent); color: #fffefa; font: italic 23px 'Playfair Display', serif; letter-spacing: -2px; padding-right: 2px; }
@@ -17,6 +17,8 @@ button { border: 0; background: none; cursor: pointer; }
 .login-link { display: flex; align-items: center; gap: 7px; background: var(--ink); color: white; padding: 11px 14px; border-radius: 2px; font-size: 11px; transition: background .2s; }
 .login-link:hover, .button-dark:hover { background: #49463f; }
 .account-link { display: flex; align-items: center; gap: 6px; }
+.theme-toggle { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 36px; padding: 0 10px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink); background: var(--paper); font-size: 10px; transition: border-color .2s, background .2s, transform .2s; }
+.theme-toggle:hover { border-color: var(--accent); transform: translateY(-1px); }
 .hero-wrap { max-width: 1280px; margin: auto; padding: 36px 40px 66px; display: grid; grid-template-columns: .88fr 1.12fr; gap: 6%; align-items: center; min-height: 540px; }
 .hero-copy { padding: 20px 0 10px 7%; }
 .eyebrow { color: var(--olive); font-size: 9px; font-weight: 700; letter-spacing: 1.65px; }
@@ -245,4 +247,66 @@ h1 em, h2 em { font-family: 'Playfair Display', serif; font-weight: 500; color: 
 }
 @media (max-width: 380px) {
   .header-inner { padding-inline: 12px; }.brand { font-size: 16px; }.header-nav { gap: 9px; }.login-link { padding-inline: 8px; }.hero-copy h1 { font-size: 46px; }.product-grid { gap-inline: 9px; }.product-category { font-size: 8px; }.product-meta { gap: 4px; }.admin-tabs { gap: 11px; }
+}
+
+/* Theme-aware surfaces for the existing warm, editorial palette. */
+:root[data-theme='dark'] .site-header { background: rgb(25 27 28 / 94%); }
+:root[data-theme='dark'] .search-box,
+:root[data-theme='dark'] .gender-tabs,
+:root[data-theme='dark'] .small-promise,
+:root[data-theme='dark'] .stock-edit button { background: var(--surface-muted); }
+:root[data-theme='dark'] .order-summary,
+:root[data-theme='dark'] .profile-avatar { background: var(--paper); }
+:root[data-theme='dark'] .small-promise,
+:root[data-theme='dark'] .summary-row,
+:root[data-theme='dark'] .summary-address,
+:root[data-theme='dark'] .field,
+:root[data-theme='dark'] .inventory-tools { color: var(--muted); }
+:root[data-theme='dark'] .summary-row > span:last-child,
+:root[data-theme='dark'] .summary-total,
+:root[data-theme='dark'] .summary-address button,
+:root[data-theme='dark'] .profile-avatar { color: var(--ink); }
+:root[data-theme='dark'] .search-box,
+:root[data-theme='dark'] .nav-link,
+:root[data-theme='dark'] .account-link,
+:root[data-theme='dark'] .filter-pill,
+:root[data-theme='dark'] .inventory-table td { color: var(--muted); }
+:root[data-theme='dark'] .search-box input { color: var(--ink); }
+:root[data-theme='dark'] .hero-art,
+:root[data-theme='dark'] .product-image-wrap,
+:root[data-theme='dark'] .detail-image,
+:root[data-theme='dark'] .cart-thumb { background: #343637; }
+:root[data-theme='dark'] .quick-view { background: rgb(35 38 39 / 94%); color: var(--ink); }
+:root[data-theme='dark'] .product-seller,
+:root[data-theme='dark'] .footer-bottom,
+:root[data-theme='dark'] .inventory-tools > span,
+:root[data-theme='dark'] .inventory-product small { color: var(--muted); }
+:root[data-theme='dark'] .empty-symbol,
+:root[data-theme='dark'] .quantity-stepper,
+:root[data-theme='dark'] .stock-edit input,
+:root[data-theme='dark'] .inventory-tools select,
+:root[data-theme='dark'] .field input { border-color: var(--line); background-color: var(--paper); color: var(--ink); }
+:root[data-theme='dark'] .auth-aside { background: var(--surface-soft); }
+:root[data-theme='dark'] .auth-aside::after { color: #3a3d37; }
+:root[data-theme='dark'] .auth-aside > p,
+:root[data-theme='dark'] .auth-aside-foot,
+:root[data-theme='dark'] .quantity-stepper button,
+:root[data-theme='dark'] .inventory-table th,
+:root[data-theme='dark'] .inventory-table td { color: var(--muted); }
+:root[data-theme='dark'] .error-state { background: #3a2925; color: #f0b3a1; }
+:root[data-theme='dark'] .error-state small { color: #d59b8c; }
+:root[data-theme='dark'] .status-pill,
+:root[data-theme='dark'] .status-select { background: #30382e; color: #c7d1a2; }
+:root[data-theme='dark'] .status-shipped,
+:root[data-theme='dark'] .status-processing { background: #3d3629; color: #e0c28a; }
+:root[data-theme='dark'] .status-cancelled { background: #3b2d29; color: #e2a18b; }
+:root[data-theme='dark'] .skeleton-card > div { background: linear-gradient(100deg,#292c2d 30%,#353839 50%,#292c2d 70%); background-size: 200% 100%; }
+:root[data-theme='dark'] .skeleton-card > span { background: #303334; }
+:root[data-theme='dark'] ::selection { background: #704737; color: #fff8ef; }
+:root[data-theme='dark'] .login-link:hover,
+:root[data-theme='dark'] .button-dark:hover { background: #434746; }
+
+@media (max-width: 700px) {
+  .theme-toggle { min-height: 32px; width: 34px; padding: 0; border-radius: 50%; }
+  .theme-toggle span { display: none; }
 }
