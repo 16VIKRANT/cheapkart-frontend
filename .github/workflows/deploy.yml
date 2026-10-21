@@ -47,8 +47,8 @@ jobs:
           context: .
           push: ${{ github.event_name != 'pull_request' }} # PR par sirf build hoga, push nahi
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/frontend:latest
-            ${{ secrets.DOCKER_USERNAME }}/frontend:${{ github.sha }}
+            ${{ secrets.DOCKER_USERNAME }}/cheapkart-frontend:latest
+            ${{ secrets.DOCKER_USERNAME }}/cheapkart-frontend:${{ github.sha }}
           build-args: |
             VITE_API_URL=${{ secrets.VITE_API_URL }}
           cache-from: type=gha
